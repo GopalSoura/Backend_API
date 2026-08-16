@@ -39,3 +39,17 @@ def create_table():
     connection.close()
 
 create_table()
+
+@app.post("/user")
+def create_user(user: User):
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    cursor.execute(
+        "INSERT INTO users (name, email, age) VALUES (%s, %s, %s)",
+        (user.name, user.email, user.age)
+    )
+    connection.commit()
+    user_id = cursor.lastrowid
+    cursor.close()
+    connection.close()
+    return {"message": "User created", "user_id": user_id}
