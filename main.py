@@ -63,3 +63,15 @@ def get_users():
     cursor.close()
     connection.close()
     return users
+
+@app.get("/user/{user_id}")
+def get_user(user_id: int):
+    connection = get_db_connection()
+    cursor = connection.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM users WHERE user_id = %s", (user_id,))
+    user = cursor.fetchone()
+    cursor.close()
+    connection.close()
+    if user is None:
+        return {"error": "User not found"}
+    return user
