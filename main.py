@@ -91,3 +91,16 @@ def update_user(user_id: int, updated_user: User):
     if rowcount == 0:
         return {"error": "User not found"}
     return {"message": "User updated", "user_id": user_id}
+
+@app.delete("/user/{user_id}")
+def delete_user(user_id: int):
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    cursor.execute("DELETE FROM users WHERE user_id = %s", (user_id,))
+    connection.commit()
+    rowcount = cursor.rowcount
+    cursor.close()
+    connection.close()
+    if rowcount == 0:
+        return {"error": "User not found"}
+    return {"message": "User deleted", "user_id": user_id}
