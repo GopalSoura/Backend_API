@@ -5,6 +5,14 @@ import mysql.connector
 
 app = FastAPI()
 
+class User(BaseModel):
+    name: str
+    email: str
+    age: Optional[int] = None
+
+class UserOut(User):
+    user_id: int
+
 DB_CONFIG = {
     "host": "localhost",
     "user": "root",
