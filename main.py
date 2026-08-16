@@ -5,6 +5,14 @@ import mysql.connector
 
 app = FastAPI()
 
+@app.get("/")
+def read_root():
+    return {"message": "User API is running"}
+
+@app.get("/health")
+def health_check():
+    return {"status": "ok"}
+
 class User(BaseModel):
     name: str
     email: str
