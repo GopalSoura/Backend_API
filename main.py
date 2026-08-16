@@ -75,3 +75,19 @@ def get_user(user_id: int):
     if user is None:
         return {"error": "User not found"}
     return user
+
+@app.put("/user/{user_id}")
+def update_user(user_id: int, updated_user: User):
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    cursor.execute(
+        "UPDATE users SET name = %s, email = %s, age = %s WHERE user_id = %s",
+        (updated_user.name, updated_user.email, updated_user.age, user_id)
+    )
+    connection.commit()
+    rowcount = cursor.rowcount
+    cursor.close()
+    connection.close()
+    if rowcount == 0:
+        return {"error": "User not found"}
+    return {"message": "User updated", "user_id": user_id}
