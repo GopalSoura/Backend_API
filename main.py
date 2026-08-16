@@ -53,3 +53,13 @@ def create_user(user: User):
     cursor.close()
     connection.close()
     return {"message": "User created", "user_id": user_id}
+
+@app.get("/users")
+def get_users():
+    connection = get_db_connection()
+    cursor = connection.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM users")
+    users = cursor.fetchall()
+    cursor.close()
+    connection.close()
+    return users
