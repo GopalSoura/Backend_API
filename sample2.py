@@ -14,4 +14,8 @@ def show_products(id:int):
             return product["name"]
 
     return "Not present"
+
+@app.get("/greet")
+def greet(name:str=None):
+    return "How are you today" if name==None else f"Hii {name} How are you doing today"
     
