@@ -1,3 +1,4 @@
+from fastapi import Request
 from fastapi import FastAPI
 from data import products
 app=FastAPI()
@@ -18,4 +19,9 @@ def show_products(id:int):
 @app.get("/greet")
 def greet(name:str=None):
     return "How are you today" if name==None else f"Hii {name} How are you doing today"
-    
+
+@app.get("/show")
+def argument_request(request:Request=None):
+    request=dict(request.query_params)
+    print(request)
+    return "How are you today" if request.get("name")==None else f"Hii {request.get("name")} How are you doing today Your age must be : {request.get("age")}"
