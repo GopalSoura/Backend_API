@@ -11,14 +11,14 @@
 # for DELETE method -> client send  only data_ID alongwith the path parameter {need of data_ID}
 
 from fastapi import FastAPI
-from pydantic import BaseModel
 from data import products
 
 app=FastAPI()
 @app.post("/create items ")
-def create_item(id:int=None,name:str=None,price:float=None):
-    if id==None or name==None or price==None:
+def create_item(id:int=None,name:str=None,price:float=None,rating:float=None):
+    if id==None or name==None or price==None or rating==None:
         return "Please enter all the fields"
     
-    products.append({"id":id,"name":name,"price":price})
-    return "Item created successfully"
+    products.append({"id":id,"name":name,"price":price,"rating":rating})
+    print(products[id-1])
+    return f"Item  created successfully on index {id-1}"
