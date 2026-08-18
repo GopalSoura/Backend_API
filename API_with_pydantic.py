@@ -29,5 +29,22 @@ def update_items(item:items,id:int):
             return "Items updated sucessfully"
     return "Item not found"
 
+
+# update the products in enumerate
+@app.put("/update_products")
+def update_products_enumerate(item:items,id:int):
+    if item==None :
+        return "Product dict is empty" 
+    if id==None:
+        return "Please enter the product_ID"
+
+    for index ,product in enumerate(products):
+        if product.get("id")==id:
+            products[index]=item.model_dump()
+            print(type(product))
+            return product
+    return "Item not found"
+
+
     
 
