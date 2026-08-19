@@ -17,6 +17,14 @@ def home():
     
 @app.post("/create")  # method to create the item with request body
 def create_items(item:Items):
+    if item.id is None:
+        return "Item id is empty"
+    if item.name is None:
+        return "Item name is empty"
+    if item.price is None:
+        return "Item price is empty"
+    if item.rating is None:
+        return "Item rating is empty"
     print(item.model_dump()) # convert the BaseModel class to dictonary
     products.append(item.model_dump())
     print(products)
