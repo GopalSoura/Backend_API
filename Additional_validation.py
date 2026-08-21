@@ -39,9 +39,26 @@ async def read_items(
         print(results)
     return results
 '''
-
+# added fixedquery as default query using annotated lib and query
 @app.get("/items/")
 async def read_items(q: Annotated[str, Query(min_length=3)] = "fixedquery"):
+    results = {"items": [{"item_id": "Foo"}, {"item_id": "Bar"}]}
+    if q:
+        results.update({"q": q})
+        print(results)
+    return results
+
+# declared NONE as default parameter in query (NO query required just keep it blank, q can be none)
+@app.get("/items_default/")
+async def read_items(q: Annotated[str | None, Query()]=None):
+    results = {"items": [{"item_id": "Foo"}, {"item_id": "Bar"}]}
+    if q:
+        results.update({"q": q})
+        print(results)
+    return results
+# Query should be present any how or else it will show error
+@app.get("/items_required_parameter/")
+async def read_items(q: Annotated[str | None, Query(min_length=3)]):
     results = {"items": [{"item_id": "Foo"}, {"item_id": "Bar"}]}
     if q:
         results.update({"q": q})
