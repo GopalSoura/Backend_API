@@ -56,6 +56,8 @@ async def read_items(q: Annotated[str | None, Query()]=None):
         results.update({"q": q})
         print(results)
     return results
+
+    
 # Query should be present any how or else it will show error
 @app.get("/items_required_parameter/")
 async def read_items(q: Annotated[str | None, Query(min_length=3)]):
@@ -63,4 +65,14 @@ async def read_items(q: Annotated[str | None, Query(min_length=3)]):
     if q:
         results.update({"q": q})
         print(results)
+    return results
+
+#Adding title in Query
+@app.get("/items_title/")
+async def read_items(
+    q: Annotated[str | None, Query(title="Query string", min_length=3)] = None,
+):
+    results = {"items": [{"item_id": "Foo"}, {"item_id": "Bar"}]}
+    if q:
+        results.update({"q": q})
     return results
