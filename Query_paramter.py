@@ -14,3 +14,4 @@ async def read_item(item_id: str, q: str | None = None, short: bool = False):
         )
     print(item)
     return item
+    
