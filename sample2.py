@@ -20,6 +20,7 @@ def show_products(id:int):
 def greet(name:str=None):
     return "How are you today" if name==None else f"Hii {name} How are you doing today"
 
+#Request library is a class that is used to get multiple values from the end point dynamically without creating individual parameters 
 @app.get("/show")
 def argument_request(request:Request=None):
     request=dict(request.query_params)
