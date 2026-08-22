@@ -14,7 +14,7 @@ from fastapi import FastAPI
 from data import products
 
 app=FastAPI()
-@app.post("/create items ")
+@app.post("/create items ") # method to create the items with query parameters 
 def create_item(id:int=None,name:str=None,price:float=None,rating:float=None):
     if id==None or name==None or price==None or rating==None:
         return "Please enter all the fields"
