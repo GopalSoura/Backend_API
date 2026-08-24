@@ -85,30 +85,23 @@ def get_items(
         "old_name": old_name
     }
 # Custom validation 
-import random
+import random 
 from pydantic import AfterValidator
 
-app = FastAPI()
-
-data = {
-    "isbn-9781529046137": "The Hitchhiker's Guide to the Galaxy",
-    "imdb-tt0371724": "The Hitchhiker's Guide to the Galaxy",
-    "isbn-9781439512982": "Isaac Asimov: The Complete Stories, Vol. 2",
+data={
+    "isbm-9003434":"The lord of rings ",
+    "imd-3383334":"The avengers",
+    "imbd-434322332":"Openhiemer"
 }
+def validate_data(id:str):
+    if not id.startswith(("isbm", "imbd" ,"imd")):
+        raise ValueError("Inavalid ID it should starts with 'isbm' 'imd' 'imbd'")
+    return id 
 
-
-def check_valid_id(id: str):
-    if not id.startswith(("isbn-", "imdb-")):
-        raise ValueError('Invalid ID format, it must start with "isbn-" or "imdb-"')
-    return id
-
-
-@app.get("/items/")
-async def read_items(
-    id: Annotated[str | None, AfterValidator(check_valid_id)] = None,
-):
+@app.get("/item_validate")
+async def movie_name( id: Annotated[str | None, AfterValidator(validate_data)] = None,):
     if id:
-        item = data.get(id)
+        item=data.get(id)
     else:
-        id, item = random.choice(list(data.items()))
-    return {"id": id, "name": item}
+        id,item=random.choice(list(data.items()))
+    return {"id":id,"name":item}
