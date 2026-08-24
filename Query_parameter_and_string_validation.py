@@ -66,7 +66,7 @@ async def read_items(
 # (and thus, from the automatic documentation systems),
 #  set the parameter include_in_schema of Query to False
 
-@app.get("/items/")
+@app.get("/items_hidden_swagger/")
 async def read_items(
     hidden_query: Annotated[str | None, Query(include_in_schema=False)] = None,
 ):
@@ -74,3 +74,13 @@ async def read_items(
         return {"hidden_query": hidden_query}
     else:
         return {"hidden_query": "Not found"}
+        
+@app.get("/items_hidden")
+def get_items(
+    name: str,
+    old_name: str = Query(None, include_in_schema=False)
+):
+    return {
+        "name": name,
+        "old_name": old_name
+    }
