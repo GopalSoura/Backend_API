@@ -16,10 +16,24 @@ async def read_items(
         results.update({"q": q})
         print(results)
     return results
+'''
+If you want to:
 
+declare the q query parameter without a Query nor any default value
+declare the path parameter item_id using Path
+have them in a different order
+not use Annotated
+...Python has a little special syntax for that.
 
+Pass *, as the first parameter of the function.
+
+Python won't do anything with that *, but it will know that all the following 
+parameters should be called as keyword arguments (key-value pairs), 
+also known as kwargs. Even if they don't have a default value.
+'''
+#passing * as default parameter
 @app.get("/item/{item_id}")
-async def read_items(*, item_id: int = Path(title="The ID of the item to get"), q: str):
+async def read_items(*, item_id: int = Path(title="The ID of the item to get"), q: str=None):
     results = {"item_id": item_id}
     if q:
         results.update({"q": q})
