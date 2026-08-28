@@ -43,6 +43,8 @@ async def read_items(*, item_id: int = Path(title="The ID of the item to get"), 
 '''
 
 
+# setting min value 1 using ge  ( g=greator than ,e= equal to ,le=less than equal to ,gt=greator than  ,lt=less than equal to)
+
 @app.get("/item/{item_id}")
 async def read_items(
     item_id: Annotated[int, Path(title="The ID of the item to get", ge=1)], q: str
