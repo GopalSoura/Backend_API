@@ -37,11 +37,29 @@ async def update_item(item_id: int, item: Item, user: User):
     return results
 
 
-# created extended body for importance 
-# Here we dont need to create an additional pydantic body for (importance ) Body() automatically detect the single parameter as a body
+# created extended body for importance .
+# Here we dont need to create an additional pydantic body for (importance ) .
+# the Body() automatically detect the single parameter as a body .
 @app.put("/items/{item_id}")
+async def update_item( item_id: int, item: Item, user: User, importance: Annotated[int, Body()] ):
+    results = {"item_id": item_id, "item": item, "user": user, "importance": importance}
+    return results
+
+@app.put("/item_1/{item_id}")
 async def update_item(
-    item_id: int, item: Item, user: User, importance: Annotated[int, Body()]
+    *,
+    item_id: int,
+    item: Item,
+    user: User,
+    importance: Annotated[int, Body(gt=0)],
+    q: str | None = None,
 ):
     results = {"item_id": item_id, "item": item, "user": user, "importance": importance}
+    if q:
+        results.update({"q": q})
+    return results
+# Here the body is item only . and item is embeded in body . So no need to pass item as key values in respect key 
+@app.put("/items/{item_id}")
+async def update_item(item_id: int, item: Annotated[Item, Body(embed=True)]):
+    results = {"item_id": item_id, "item": item}
     return results
