@@ -9,16 +9,17 @@ class Item(BaseModel):
     description: str | None = None
     price: float
     tax: float | None = None
-    tags: list = []
+    tags: list[str] = []
 
 
 @app.get("/items/{item_id}")
 async def update_item(item_id: int, item: Item):
-    name=item.name
-    description=item.description
-    price=item.price
-    tax=item.tax
-    tags=item.tags
     results = {"item_id": item_id, "item": item}
     print(results)
+    return results
+
+# validator as value type in  body and list of string in field
+@app.put("/item/{item_id}")
+async def update_item(item_id: int, item: Item):
+    results = {"item_id": item_id, "item": item}
     return results
