@@ -49,7 +49,7 @@ async def update_student_id(id:int,data:Data):
 '''
 
 # validating image with pydantic url
-
+'''
 from pydantic import HttpUrl
 class Image(BaseModel):
     url:HttpUrl
@@ -62,6 +62,26 @@ class Data(BaseModel):
     Rollno:str|None=None
     address:str|None=None
     image:Image|None=None
+
+@app.put("/Studnets/{id}")
+async def update_student_id(id:int,data:Data):
+    data.id=id
+    result={"id":id,"data":data}
+    return result
+'''
+
+from pydantic import HttpUrl
+class Image(BaseModel):
+    url:HttpUrl
+    name:str
+
+class Data(BaseModel):
+    id:Annotated[int,Field(title="Student Id",ge=0,le=100,description="Enter the id of the student")]
+    name:str|None=None
+    description:str|None=None
+    Rollno:str|None=None
+    address:str|None=None
+    image:list[Image]|None=None
 
 @app.put("/Studnets/{id}")
 async def update_student_id(id:int,data:Data):
