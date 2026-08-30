@@ -135,7 +135,22 @@ async def create_multiple_images(images: list[Image]):
     print(images,type(images))
     return images
 
-#Declared body in parameter of the function to simplify it 
+#Declared Pydantic body for validation without model defination (or using pydantic BaseModel)in parameter of the function to simplify it 
+# Here we are passing a json request to our body in the form of 
+'''
+{
+  "1": 0.5,
+  "2": 0.8,
+  "3": 1.2
+}
+but pydantic validor coverts it into 
+{
+    1: 0.5,
+    2: 0.8,
+    3: 1.2
+}
+
+'''
 @app.post("/index-weights/")
 async def create_index_weights(weights: dict[int, float]):
     print(weights,type(weights))
