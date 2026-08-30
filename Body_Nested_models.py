@@ -48,7 +48,7 @@ async def update_student_id(id:int,data:Data):
 
 '''
 
-# validating image with pydantic url
+# validating image with pydantic HttpUrl
 '''
 from pydantic import HttpUrl
 class Image(BaseModel):
@@ -69,7 +69,19 @@ async def update_student_id(id:int,data:Data):
     result={"id":id,"data":data}
     return result
 '''
-
+# decalring the image as list in body so that Image basemodel class provide validation and metadata for each image inside the list in the form of dictionary 
+'''
+images": [
+        {
+            "url": "http://example.com/baz.jpg",
+            "name": "The Foo live"
+        },
+        {
+            "url": "http://example.com/dave.jpg",
+            "name": "The Baz"
+        }
+'''
+'''
 from pydantic import HttpUrl
 class Image(BaseModel):
     url:HttpUrl
@@ -88,3 +100,30 @@ async def update_student_id(id:int,data:Data):
     data.id=id
     result={"id":id,"data":data}
     return result
+'''
+
+from pydantic import HttpUrl
+class Image(BaseModel):
+    url: HttpUrl
+    name: str
+
+
+class Item(BaseModel):
+    name: str
+    description: str | None = None
+    price: float
+    tax: float | None = None
+    tags: set[str] = set()
+    images: list[Image] | None = None
+
+
+class Offer(BaseModel):
+    name: str
+    description: str | None = None
+    price: float
+    items: list[Item]
+
+
+@app.post("/offers/")
+async def create_offer(offer: Offer):
+    return offer
