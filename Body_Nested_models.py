@@ -134,3 +134,9 @@ async def create_offer(offer: Offer):
 async def create_multiple_images(images: list[Image]):
     print(images,type(images))
     return images
+
+#Declared body in parameter of the function to simplify it 
+@app.post("/index-weights/")
+async def create_index_weights(weights: dict[int, float]):
+    print(weights,type(weights))
+    return weights
