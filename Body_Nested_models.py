@@ -101,7 +101,7 @@ async def update_student_id(id:int,data:Data):
     result={"id":id,"data":data}
     return result
 '''
-
+#deep nested loop using 3 BaseModel classes Offer,Item,Image in single query or function 
 from pydantic import HttpUrl
 class Image(BaseModel):
     url: HttpUrl
@@ -127,3 +127,10 @@ class Offer(BaseModel):
 @app.post("/offers/")
 async def create_offer(offer: Offer):
     return offer
+
+# declaring the type in the parameter of the function, the same as in Pydantic models:
+# Here i am setting the image as a list of BaseModel class
+@app.post("/images/multiple/")
+async def create_multiple_images(images: list[Image]):
+    print(images,type(images))
+    return images
