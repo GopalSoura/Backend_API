@@ -1,5 +1,6 @@
-from fastapi import FastAPI
-from pydantic import BaseModel
+from fastapi import FastAPI,Path
+from typing import Annotated
+from pydantic import BaseModel,Field
 
 app = FastAPI()
 
@@ -23,3 +24,23 @@ async def update_item(item_id: int, item: Item):
 async def update_item(item_id: int, item: Item):
     results = {"item_id": item_id, "item": item}
     return results
+
+#Nested Basemodel with pydantic for image urls 
+class Image(BaseModel):
+    url:str
+    name:str
+
+class Data(BaseModel):
+    id:Annotated[int,Field(title="Student Id",ge=0,description="Enter the id of the student")]
+    name:str|None=None
+    description:str|None=None
+    Rollno:str|None=None
+    address:str|None=None
+    image:Image|None=None
+
+@app.put("/Studnets/{id}")
+async def update_student_id(id:int,data:Data):
+    data.id=id
+    result={"id":id,"data":data}
+    return result
+
