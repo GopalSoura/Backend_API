@@ -1,6 +1,7 @@
 # we can declare the cookie parameters same as the Path and Query parameter
 from fastapi import Response
 from typing import Annotated
+from pydantic import BaseModel
 
 from fastapi import Cookie, FastAPI
 
@@ -24,3 +25,16 @@ async def store_cookie(response:Response):
 async def show_cookie(Session_id:Annotated[str|None ,Cookie()]=None):
     print(Session_id)
     return {"Session_id":Session_id}
+
+
+
+
+class Cookies(BaseModel):
+    session_id: str
+    fatebook_tracker: str | None = None
+    googall_tracker: str | None = None
+
+
+@app.get("/items/")
+async def read_items(cookies: Annotated[Cookies, Cookie()]):
+    return cookies
